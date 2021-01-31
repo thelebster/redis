@@ -75,21 +75,6 @@ class RedisSessionsSessionManager extends SessionManager {
   }
 
   /**
-   * Overloads existing session manager methods.
-   *
-   * This will intercept all method calls not defined in this service and
-   * redirect them to the innerService.
-   *
-   * @param string $method
-   *   The name of the called method.
-   * @param array $args
-   *   An array of all the arguments passed to the called method.
-   */
-  public function __call($method, $args) {
-    return call_user_func_array(array($this->innerService, $method), $args);
-  }
-
-  /**
    * Return the session.save_path string for PHP native session handling.
    *
    * Get save_path from site settings, since we can't inject it into the
