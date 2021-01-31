@@ -180,29 +180,8 @@ class RedisSessionsSessionManager extends SessionManager {
   public function save() {
     $uid = $this->getSessionBagUid();
 
-    if ($this->isCli()) {
-      // We don't have anything to do if we are not allowed to save the session.
-      return;
-    }
-
-    if ($this->isSessionObsolete()) {
-      // There is no session data to store, destroy the session if it was
-      // previously started.
-      if ($this->getSaveHandler()->isActive()) {
-        $this->destroy();
-      }
-    }
-    else {
-      // There is session data to store. Start the session if it is not already
-      // started.
-      if (!$this->getSaveHandler()->isActive()) {
-        $this->startNow();
-      }
-      // Write the session data.
-      $this->innerService->save();
-    }
-
-    $this->startedLazy = FALSE;
+    // Write the session data.
+    parent::save();
 
     // Write a key:value pair to be able to find the UID by the SID later.
     // NOTE: Checking for $uid here ensures that only sessions for logged-in
